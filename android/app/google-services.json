@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "807806732564",
+    "firebase_url": "https://betapp-6bc95.firebaseio.com",
+    "project_id": "betapp-6bc95",
+    "storage_bucket": "betapp-6bc95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807806732564:android:db0a7c75a171ec1f25da01",
+        "android_client_info": {
+          "package_name": "com.cipetbet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807806732564-67te0omh0dalj84orqiubfftip5etvje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyWUvXNfX-r1OFSJiC9rkd_09Pbq17RnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807806732564-67te0omh0dalj84orqiubfftip5etvje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

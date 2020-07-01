@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, ScrollView, View} from 'react-native';
+
 import Header from '../components/header';
 import Bet from '../components/bet';
 
@@ -8,12 +9,19 @@ const height = Dimensions.get('screen').height / 640;
 export default class homePage extends Component {
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Header />
-        <Bet />
+        <ScrollView style={styles.betsContainer}>
+          <Bet />
+        </ScrollView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  betsContainer: {
+    backgroundColor: '#F5E08B',
+  },
+  container: {flex: 1},
+});

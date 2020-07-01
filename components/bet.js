@@ -1,43 +1,77 @@
 import React, {Component} from 'react';
-import {Text, View, Dimensions, StyleSheet} from 'react-native';
+import {Text, View, Dimensions, StyleSheet, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import db from '@react-native-firebase/database';
 
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
 export default class bet extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bets: {},
+    };
+    this.loadBets();
+  }
+  loadBets = () => {
+    db()
+      .ref('/bets')
+      .on('value', bets => {
+        if (bets.val() !== null) {
+          this.setState({bets: bets.val()});
+        }
+      });
+  };
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.titleDateContainer}>
-          <Text style={{fontSize: 16 * height}}>Fenerbahçe - Ankaragücü</Text>
-          <Text style={{fontSize: 14 * height, fontFamily: 'roboto'}}>
-            20/06/2020
-          </Text>
-        </View>
-        <View style={styles.infoContainer}>
-          <Text
-            style={{
-              alignSelf: 'center',
-              fontFamily: 'roboto',
-              fontSize: 16 * height,
-            }}>
-            21:00
-          </Text>
-          <View style={styles.ligContainer}>
-            <Text style={styles.ligText}>Türkiye-Süper Lig</Text>
+    const {bets} = this.state;
+    let newBet = [];
+
+    for (let i = 1; i < bets.length; i++) {
+      let imageBlur;
+      let randomBlur;
+      console.log(bets);
+      randomBlur = Math.floor(Math.random() * Math.floor(3));
+      if (randomBlur === 0) {
+        imageBlur = require('../images/blur1.png');
+      } else if (randomBlur === 1) {
+        imageBlur = require('../images/blur2.png');
+      } else {
+        imageBlur = require('../images/blur3.png');
+      }
+      newBet.push(
+        <View style={styles.container}>
+          <View style={styles.titleDateContainer}>
+            <Text style={styles.titleText}>{bets[i].title}</Text>
+            <Text style={styles.dateText}>{bets[i].date}</Text>
           </View>
-          <LinearGradient
-            start={{x: 0.0, y: 0}}
-            end={{x: 1, y: 1.0}}
-            colors={['#28616B', '#20AE02']}
-            style={styles.tahminContainer}>
-            <Text style={styles.tahminText}>MS 1</Text>
-            <Text style={styles.tahminText}>1.35</Text>
-            <Text style={styles.tahminText}>%95</Text>
-          </LinearGradient>
-        </View>
-      </View>
-    );
+          <View style={styles.infoContainer}>
+            <Text style={styles.timeText}>{bets[i].time}</Text>
+            <View style={styles.ligContainer}>
+              <Text style={styles.ligText}>{bets[i].league}</Text>
+            </View>
+            {bets[i].vip === false ? (
+              <LinearGradient
+                start={{x: 0.0, y: 0}}
+                end={{x: 1, y: 1.0}}
+                colors={['#28616B', '#20AE02']}
+                style={styles.tahminContainer}>
+                <Text style={styles.tahminText}>{bets[i].estimation}</Text>
+                <Text style={styles.tahminText}>{bets[i].rate}</Text>
+                <Text style={styles.tahminText}>{bets[i].percent}</Text>
+              </LinearGradient>
+            ) : (
+              <Image
+                resizeMode="contain"
+                style={styles.blur}
+                source={imageBlur}
+              />
+            )}
+          </View>
+        </View>,
+      );
+    }
+
+    return newBet;
   }
 }
 
@@ -47,8 +81,9 @@ const styles = StyleSheet.create({
     width: 360 * width,
     height: 90 * height,
     justifyContent: 'center',
-    borderTopWidth: 0.25,
-    borderBottomWidth: 0.25,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    marginBottom: 15 * height,
   },
   titleDateContainer: {
     flexDirection: 'row',
@@ -87,5 +122,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12 * height,
     fontFamily: 'roboto',
+  },
+  timeText: {
+    alignSelf: 'center',
+    fontFamily: 'roboto',
+    fontSize: 16 * height,
+  },
+  titleText: {fontSize: 16 * height},
+  dateText: {
+    fontSize: 14 * height,
+    fontFamily: 'roboto',
+  },
+  blur: {
+    width: 112 * width,
+    height: 25 * height,
   },
 });
