@@ -6,6 +6,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "android-debug": "android-debug.bat",
+    "android-release": "android-release.bat",
     "test": "jest",
     "lint": "eslint ."
   },
