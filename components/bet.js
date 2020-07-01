@@ -22,14 +22,37 @@ export default class bet extends Component {
         }
       });
   };
-  render() {
-    const {bets} = this.state;
-    let newBet = [];
 
+  sortBets = () => {
+    const {bets} = this.state;
+    let freeBets = [];
+    let vipBets = [];
     for (let i = 1; i < bets.length; i++) {
+      const [day, month, year] = bets[i].date.split('/');
+      bets[i].isoDate = `${year}-${month}-${day}`;
+      bets[i].vip ? vipBets.push(bets[i]) : freeBets.push(bets[i]);
+    }
+    //console.log(bets);
+    return [
+      ...freeBets.sort(
+        ({isoDate}, {isoDate: isoDate1}) =>
+          new Date(isoDate) - new Date(isoDate1),
+      ),
+      ...vipBets.sort(
+        ({isoDate}, {isoDate: isoDate1}) =>
+          new Date(isoDate) - new Date(isoDate1),
+      ),
+    ];
+  };
+
+  render() {
+    let newBet = [];
+    let sortedBets = [];
+    sortedBets = this.sortBets();
+    console.log(sortedBets);
+    for (let i = 0; i < sortedBets.length; i++) {
       let imageBlur;
       let randomBlur;
-      console.log(bets);
       randomBlur = Math.floor(Math.random() * Math.floor(3));
       if (randomBlur === 0) {
         imageBlur = require('../images/blur1.png');
@@ -41,23 +64,25 @@ export default class bet extends Component {
       newBet.push(
         <View style={styles.container}>
           <View style={styles.titleDateContainer}>
-            <Text style={styles.titleText}>{bets[i].title}</Text>
-            <Text style={styles.dateText}>{bets[i].date}</Text>
+            <Text style={styles.titleText}>{sortedBets[i].title}</Text>
+            <Text style={styles.dateText}>{sortedBets[i].date}</Text>
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.timeText}>{bets[i].time}</Text>
+            <Text style={styles.timeText}>{sortedBets[i].time}</Text>
             <View style={styles.ligContainer}>
-              <Text style={styles.ligText}>{bets[i].league}</Text>
+              <Text style={styles.ligText}>{sortedBets[i].league}</Text>
             </View>
-            {bets[i].vip === false ? (
+            {sortedBets[i].vip === false ? (
               <LinearGradient
                 start={{x: 0.0, y: 0}}
                 end={{x: 1, y: 1.0}}
                 colors={['#28616B', '#20AE02']}
                 style={styles.tahminContainer}>
-                <Text style={styles.tahminText}>{bets[i].estimation}</Text>
-                <Text style={styles.tahminText}>{bets[i].rate}</Text>
-                <Text style={styles.tahminText}>{bets[i].percent}</Text>
+                <Text style={styles.tahminText}>
+                  {sortedBets[i].estimation}
+                </Text>
+                <Text style={styles.tahminText}>{sortedBets[i].rate}</Text>
+                <Text style={styles.tahminText}>{sortedBets[i].percent}</Text>
               </LinearGradient>
             ) : (
               <Image
