@@ -8,8 +8,6 @@
     "android-debug": "android-debug.bat",
     "android-release": "android-release.bat",
     "start": "react-native start",
-    "android-debug": "android-debug.bat",
-    "android-release": "android-release.bat",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -22,6 +20,7 @@
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-iap": "^4.4.9",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.0.7",

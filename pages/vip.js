@@ -1,10 +1,29 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Image, Dimensions} from 'react-native';
+import * as RNIap from 'react-native-iap';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
 const gif = require('../images/vip.png');
 export default class vip extends Component {
+  constructor(props) {
+    super(props);
+    const {products} = props.route.params;
+
+    this.state({products});
+  }
+
+  buyProduct = subType => {
+    //RNIap.requestSubscription(subType);
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -14,29 +33,56 @@ export default class vip extends Component {
         <View style={styles.vipHeaderContainer}>
           <Text style={styles.vipText}>VİP ÜYELİK PAKETLERİ</Text>
         </View>
-        <View style={styles.vipsContainer}>
+        {/**<View style={styles.vipsContainer}>
           <Text style={styles.vipTimeText}>Günlük</Text>
           <View style={styles.priceView}>
             <Text style={styles.vipPriceText}>₺4.99</Text>
           </View>
         </View>
+        */}
         <View style={styles.vipsContainer}>
-          <Text style={styles.vipTimeText}>Haftalık</Text>
-          <View style={styles.priceView}>
-            <Text style={styles.vipPriceText}>₺9.99</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.buyProduct('weekly');
+            }}>
+            <Text style={styles.vipTimeText}>Haftalık</Text>
+            <View style={styles.priceView}>
+              <Text style={styles.vipPriceText}>₺9.99</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.vipsContainer}>
-          <Text style={styles.vipTimeText}>Aylık</Text>
-          <View style={styles.priceView}>
-            <Text style={styles.vipPriceText}>₺24.99</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.buyProduct('monthly');
+            }}>
+            <Text style={styles.vipTimeText}>Aylık</Text>
+            <View style={styles.priceView}>
+              <Text style={styles.vipPriceText}>₺24.99</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.vipsContainer}>
-          <Text style={styles.vipTimeText}>3 Aylık</Text>
-          <View style={styles.priceView}>
-            <Text style={styles.vipPriceText}>₺64.99</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.buyProduct('seasonal');
+            }}>
+            <Text style={styles.vipTimeText}>3 Aylık</Text>
+            <View style={styles.priceView}>
+              <Text style={styles.vipPriceText}>₺64.99</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.vipsContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              this.buyProduct('yearly');
+            }}>
+            <Text style={styles.vipTimeText}>Yıllık</Text>
+            <View style={styles.priceView}>
+              <Text style={styles.vipPriceText}>₺149.99</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
