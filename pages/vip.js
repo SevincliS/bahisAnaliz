@@ -12,16 +12,19 @@ import {
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
 const gif = require('../images/vip.png');
-export default class vip extends Component {
+export default class Vip extends Component {
   constructor(props) {
     super(props);
+    console.log(props.route.params);
     const {products} = props.route.params;
-
-    this.state({products});
+    this.state = {products};
   }
 
   buyProduct = subType => {
     //RNIap.requestSubscription(subType);
+    // when user subscribes to a product we will store the subscription date with dateObject.getTime() method
+    //and convert the date into integer. Then store it in firebase, then get the integer in the app and convert it into date object again  ex: new Date(1231242321)
+    //we will also store what kind of subscription he subscribed to. based on the subscriptionType we will calculate the days. 7,30,90 etc..
   };
 
   render() {

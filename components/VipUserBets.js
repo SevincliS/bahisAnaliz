@@ -5,7 +5,7 @@ import db from '@react-native-firebase/database';
 
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
-export default class bet extends Component {
+class VipUserBets extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,16 +51,6 @@ export default class bet extends Component {
     sortedBets = this.sortBets();
     console.log(sortedBets);
     for (let i = 0; i < sortedBets.length; i++) {
-      let imageBlur;
-      let randomBlur;
-      randomBlur = Math.floor(Math.random() * Math.floor(3));
-      if (randomBlur === 0) {
-        imageBlur = require('../images/blur1.png');
-      } else if (randomBlur === 1) {
-        imageBlur = require('../images/blur2.png');
-      } else {
-        imageBlur = require('../images/blur3.png');
-      }
       newBet.push(
         <View style={styles.container}>
           <View style={styles.titleDateContainer}>
@@ -72,25 +62,15 @@ export default class bet extends Component {
             <View style={styles.ligContainer}>
               <Text style={styles.ligText}>{sortedBets[i].league}</Text>
             </View>
-            {sortedBets[i].vip === false ? (
-              <LinearGradient
-                start={{x: 0.0, y: 0}}
-                end={{x: 1, y: 1.0}}
-                colors={['#28616B', '#20AE02']}
-                style={styles.tahminContainer}>
-                <Text style={styles.tahminText}>
-                  {sortedBets[i].estimation}
-                </Text>
-                <Text style={styles.tahminText}>{sortedBets[i].rate}</Text>
-                <Text style={styles.tahminText}>{sortedBets[i].percent}</Text>
-              </LinearGradient>
-            ) : (
-              <Image
-                resizeMode="contain"
-                style={styles.blur}
-                source={imageBlur}
-              />
-            )}
+            <LinearGradient
+              start={{x: 0.0, y: 0}}
+              end={{x: 1, y: 1.0}}
+              colors={['#28616B', '#20AE02']}
+              style={styles.tahminContainer}>
+              <Text style={styles.tahminText}>{sortedBets[i].estimation}</Text>
+              <Text style={styles.tahminText}>{sortedBets[i].rate}</Text>
+              <Text style={styles.tahminText}>{sortedBets[i].percent}</Text>
+            </LinearGradient>
           </View>
         </View>,
       );
@@ -163,3 +143,5 @@ const styles = StyleSheet.create({
     height: 25 * height,
   },
 });
+
+export default VipUserBets;

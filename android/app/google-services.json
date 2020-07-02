@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "807806732564-u3nc68s8dpme5ot4bt72aieuaboaeu1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cipetbet",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "807806732564-67te0omh0dalj84orqiubfftip5etvje.apps.googleusercontent.com",
           "client_type": 3
         }

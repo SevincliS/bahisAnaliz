@@ -1,28 +1,32 @@
-import * as React from 'react';
+import React from 'react';
 import * as RNIap from 'react-native-iap';
 import {Image, StyleSheet, Dimensions} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import vip from './pages/vip';
-import homePage from './pages/homePage';
+import Vip from './pages/Vip';
+import HomePage from './pages/HomePage';
 
 const height = Dimensions.get('screen').height / 640;
 const width = Dimensions.get('screen').width / 640;
 const Tab = createBottomTabNavigator();
 
-export default class App extends React.Component() {
-  constructor() {
+class Router extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+    };
     // this.getProducts();
   }
 
   getProducts = async () => {
     try {
-      const products = await RNIap.getSubscriptions([
+      /*const products = await RNIap.getSubscriptions([
         'weekly',
         'monthly',
         'seasonal',
         'yearly',
-      ]);
-      this.setState({products});
+      ]);*/
+      this.setState({products: []});
     } catch (err) {
       console.warn(err); // standardized err.code and err.message available
     }
@@ -53,7 +57,7 @@ export default class App extends React.Component() {
             ),
           }}
           name="homePage"
-          component={homePage}
+          component={HomePage}
         />
         <Tab.Screen
           options={{
@@ -66,7 +70,7 @@ export default class App extends React.Component() {
             ),
           }}
           name="Vip"
-          component={vip}
+          component={Vip}
           initialParams={{products}}
         />
       </Tab.Navigator>
@@ -80,3 +84,5 @@ const styles = StyleSheet.create({
     height: 60 * height,
   },
 });
+
+export default Router;
