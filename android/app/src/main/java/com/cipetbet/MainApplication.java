@@ -45,7 +45,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   @Override
   public void onCreate() {
     super.onCreate();
-    AppEventsLogger.activateApp(this);
+    //AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
