@@ -54,57 +54,55 @@ class Vip extends Component {
         <View style={styles.vipHeaderContainer}>
           <Text style={styles.vipText}>VİP ÜYELİK PAKETLERİ</Text>
         </View>
-        {/**<View style={styles.vipsContainer}>
-          <Text style={styles.vipTimeText}>Günlük</Text>
-          <View style={styles.priceView}>
-            <Text style={styles.vipPriceText}>₺4.99</Text>
-          </View>
-        </View>
-        */}
-        <View style={styles.vipsContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              this.requestSubscription('weekly');
-            }}>
+        <TouchableOpacity
+          onPress={() => {
+            this.requestSubscription('weekly');
+          }}>
+          <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>Haftalık</Text>
             <View style={styles.priceView}>
-              <Text style={styles.vipPriceText}>₺9.99</Text>
+              <Text Text style={styles.vipPriceText}>
+                ₺9.99
+              </Text>
             </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.vipsContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              this.requestSubscription('monthly');
-            }}>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            this.requestSubscription('monthly');
+          }}>
+          <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>Aylık</Text>
             <View style={styles.priceView}>
               <Text style={styles.vipPriceText}>₺24.99</Text>
             </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.vipsContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              this.requestSubscription('seasonal');
-            }}>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            this.requestSubscription('seasonal');
+          }}>
+          <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>3 Aylık</Text>
             <View style={styles.priceView}>
               <Text style={styles.vipPriceText}>₺64.99</Text>
             </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.vipsContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              this.requestSubscription('yearly');
-            }}>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            this.requestSubscription('yearly');
+          }}>
+          <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>Yıllık</Text>
             <View style={styles.priceView}>
               <Text style={styles.vipPriceText}>₺149.99</Text>
             </View>
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -178,7 +176,6 @@ const styles = StyleSheet.create({
   vipPriceText: {
     textAlign: 'center',
     fontFamily: 'roboto',
-    marginRight: 28 * width,
     fontSize: 20 * height,
   },
 });
