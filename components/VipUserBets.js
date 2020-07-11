@@ -49,7 +49,6 @@ class VipUserBets extends Component {
     let newBet = [];
     let sortedBets = [];
     sortedBets = this.sortBets();
-    console.log(sortedBets);
     for (let i = 0; i < sortedBets.length; i++) {
       newBet.push(
         <View style={styles.container}>

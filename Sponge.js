@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 class Sponge extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
   }
   render() {
     const {user} = this.props;

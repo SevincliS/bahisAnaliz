@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import RNIap, {
+  purchaseErrorListener,
+  purchaseUpdatedListener,
+} from 'react-native-iap';
 import {
   Dimensions,
   StyleSheet,
@@ -21,7 +25,16 @@ const height = Dimensions.get('screen').height / 640;
 class HomePage extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     props.updateSubscription();
+  }
+
+  componentDidMount() {
+    this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
+      console.log('purchaseUpdatedListener', purchase);
+      const receipt = purchase.transactionReceipt;
+      console.log(receipt);
+    });
   }
   render() {
     const {resetUser, user} = this.props;

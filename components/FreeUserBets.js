@@ -49,7 +49,7 @@ class FreeUserBets extends Component {
     let newBet = [];
     let sortedBets = [];
     sortedBets = this.sortBets();
-    console.log(sortedBets);
+    //console.log(sortedBets);
     for (let i = 0; i < sortedBets.length; i++) {
       let imageBlur;
       let randomBlur;

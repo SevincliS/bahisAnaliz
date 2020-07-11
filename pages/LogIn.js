@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Image,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {connect} from 'react-redux';
@@ -30,7 +31,6 @@ class LogIn extends React.Component {
   }
 
   onFacebookButtonPress = async () => {
-    console.log('wtf');
     // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions([
       'public_profile',
@@ -46,7 +46,6 @@ class LogIn extends React.Component {
     const facebookCredential = auth.FacebookAuthProvider.credential(
       data.accessToken,
     );
-    console.log(data);
     auth()
       .signInWithCredential(facebookCredential)
       .then(async res => {
@@ -68,7 +67,6 @@ class LogIn extends React.Component {
 
   logInCallback = async res => {
     const {setUser} = this.props;
-    console.log({res});
     const {uid, displayName: name, email} = res.user;
     await db()
       .ref(`users/${uid}`)
@@ -86,7 +84,6 @@ class LogIn extends React.Component {
             subscriptionType: null,
           });
         } else {
-          console.log(user.val());
           setUser({
             uid,
             name,
@@ -103,38 +100,39 @@ class LogIn extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.headerText}>Hackerrank JS</Text>
-
-        <View style={styles.googleSigninView}>
-          <Text style={styles.signInGoogleText}>or sign in with</Text>
-          <TouchableOpacity
-            style={styles.googleIconView}
-            onPress={() =>
-              this.onGoogleButtonPress()
-                .then(() => console.log('Signed in with Google!'))
-                .catch(err => {
-                  console.log(err);
-                })
-            }>
-            <Text>Google ile gir.</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              this.onFacebookButtonPress();
-            }}>
-            <Text>FACEBOOKLA GIR</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.googleSigninView}>
-          <TouchableOpacity
-            style={styles.googleIconView}
-            onPress={() => setUser({loggedIn: true})}>
-            <Text>Anonim olarak devam et.</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            this.onFacebookButtonPress();
+          }}>
+          <View style={styles.facebookView}>
+            <Image style={styles.facebookIcon} source={{uri: 'fb_icon'}} />
+            <Text style={styles.facebookText}>Facebook ile giriş yap</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.googleIconView}
+          onPress={() =>
+            this.onGoogleButtonPress()
+              .then(() => console.log('Signed in with Google!'))
+              .catch(err => {
+                console.log(err);
+              })
+          }>
+          <View style={styles.googleView}>
+            <Image style={styles.googleIcon} source={{uri: 'google_icon'}} />
+            <Text style={styles.googleText}>Google ile giriş yap</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.googleIconView}
+          onPress={() => setUser({loggedIn: true, anonym: true})}>
+          <View style={styles.anonymView}>
+            <Text style={{fontSize: 12, marginVertical: 16*width}}>ya da</Text>
+            <Text style={{fontsize: 16, fontWeight: 'bold'}}>
+              Anonim olarak devam et.
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -172,28 +170,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  googleSigninView: {
-    marginTop: 15 * height,
-    alignSelf: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#FFCC00',
   },
-  signInGoogleText: {
-    fontSize: 13 * height,
-    fontFamily: 'roboto',
-    color: '#00132C',
-    textAlign: 'center',
+  googleView: {
+    flexDirection: 'row',
+    marginTop: 15 * height,
+    width: 255 * width,
+    height: 45 * height,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFE98D',
+    borderRadius: 5,
+  },
+  googleText: {
+    color: '#000',
+    fontSize: 16,
+    marginLeft: 20 * width,
   },
   googleIcon: {
-    width: 40.68 * width,
-    height: 43 * height,
+    width: 25 * width,
+    height: 25 * height,
+    marginLeft: 20 * width,
   },
   googleIconView: {
     marginTop: 6 * height,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  facebookView: {
+    width: 255 * width,
+    height: 45 * height,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#4267B2',
+  },
+  facebookText: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 20 * width,
+  },
+  facebookIcon: {
+    marginLeft: 20 * width,
+    width: 25 * width,
+    height: 25 * height,
+  },
+  anonymView: {alignItems: 'center'},
 });
 
 const mapDispatchToProps = dispatch => {

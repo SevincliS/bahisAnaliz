@@ -1,5 +1,4 @@
 import React from 'react';
-import * as RNIap from 'react-native-iap';
 import {Image, StyleSheet, Dimensions} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Vip from './pages/Vip';
@@ -12,28 +11,9 @@ const Tab = createBottomTabNavigator();
 class Router extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      products: [],
-    };
-    // this.getProducts();
   }
 
-  getProducts = async () => {
-    try {
-      /*const products = await RNIap.getSubscriptions([
-        'weekly',
-        'monthly',
-        'seasonal',
-        'yearly',
-      ]);*/
-      this.setState({products: []});
-    } catch (err) {
-      console.warn(err); // standardized err.code and err.message available
-    }
-  };
-
   render() {
-    const {products} = this.state;
     return (
       <Tab.Navigator
         tabBarOptions={{
@@ -71,7 +51,6 @@ class Router extends React.Component {
           }}
           name="Vip"
           component={Vip}
-          initialParams={{products}}
         />
       </Tab.Navigator>
     );

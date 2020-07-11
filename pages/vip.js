@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as RNIap from 'react-native-iap';
+import {connect} from 'react-redux';
 import {
   Text,
   View,
@@ -12,21 +13,38 @@ import {
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
 const gif = require('../images/vip.png');
-export default class Vip extends Component {
+class Vip extends Component {
   constructor(props) {
     super(props);
-    console.log(props.route.params);
-    const {products} = props.route.params;
-    this.state = {products};
+    console.log(props.user);
   }
 
-  buyProduct = subType => {
-    //RNIap.requestSubscription(subType);
-    // when user subscribes to a product we will store the subscription date with dateObject.getTime() method
-    //and convert the date into integer. Then store it in firebase, then get the integer in the app and convert it into date object again  ex: new Date(1231242321)
-    //we will also store what kind of subscription he subscribed to. based on the subscriptionType we will calculate the days. 7,30,90 etc..
-  };
+  async componentDidMount() {
+    try {
+      const products = await RNIap.getSubscriptions([
+        'weekly',
+        'monthly',
+        'seasonal',
+        'yearly',
+      ]);
+      this.setState({products});
+    } catch (err) {
+      console.warn(err); // standardized err.code and err.message available
+    }
+  }
 
+  requestSubscription = async subType => {
+    const {user} = this.props;
+    const {anonym} = user;
+    if (!anonym) {
+      try {
+        await RNIap.requestSubscription(subType);
+      } catch (err) {
+        console.warn(err.code, err.message);
+      }
+    } else {
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -46,7 +64,7 @@ export default class Vip extends Component {
         <View style={styles.vipsContainer}>
           <TouchableOpacity
             onPress={() => {
-              this.buyProduct('weekly');
+              this.requestSubscription('weekly');
             }}>
             <Text style={styles.vipTimeText}>Haftalık</Text>
             <View style={styles.priceView}>
@@ -57,7 +75,7 @@ export default class Vip extends Component {
         <View style={styles.vipsContainer}>
           <TouchableOpacity
             onPress={() => {
-              this.buyProduct('monthly');
+              this.requestSubscription('monthly');
             }}>
             <Text style={styles.vipTimeText}>Aylık</Text>
             <View style={styles.priceView}>
@@ -68,7 +86,7 @@ export default class Vip extends Component {
         <View style={styles.vipsContainer}>
           <TouchableOpacity
             onPress={() => {
-              this.buyProduct('seasonal');
+              this.requestSubscription('seasonal');
             }}>
             <Text style={styles.vipTimeText}>3 Aylık</Text>
             <View style={styles.priceView}>
@@ -79,7 +97,7 @@ export default class Vip extends Component {
         <View style={styles.vipsContainer}>
           <TouchableOpacity
             onPress={() => {
-              this.buyProduct('yearly');
+              this.requestSubscription('yearly');
             }}>
             <Text style={styles.vipTimeText}>Yıllık</Text>
             <View style={styles.priceView}>
@@ -171,3 +189,12 @@ const styles = StyleSheet.create({
             yüksek maçları sizlerle paylaşıyoruz.
           </Text>
         </View>*/
+const mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+};
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Vip);
