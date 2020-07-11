@@ -3,6 +3,7 @@ import {Image, StyleSheet, Dimensions} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Vip from './pages/Vip';
 import HomePage from './pages/HomePage';
+import Live from './pages/Live';
 
 const height = Dimensions.get('screen').height / 640;
 const width = Dimensions.get('screen').width / 640;
@@ -51,6 +52,19 @@ class Router extends React.Component {
           }}
           name="Vip"
           component={Vip}
+        />
+        <Tab.Screen
+          options={{
+            tabBarIcon: () => (
+              <Image
+                style={styles.homePageIcon}
+                resizeMode="contain"
+                source={{uri: 'live_icon'}}
+              />
+            ),
+          }}
+          name="Live"
+          component={Live}
         />
       </Tab.Navigator>
     );

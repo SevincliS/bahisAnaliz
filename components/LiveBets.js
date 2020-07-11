@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Text, View, Dimensions, StyleSheet, Image} from 'react-native';
+import {Text, View, Dimensions, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import db from '@react-native-firebase/database';
 
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
-class VipUserBets extends Component {
+class LiveBets extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +15,7 @@ class VipUserBets extends Component {
   }
   loadBets = () => {
     db()
-      .ref('/bets')
+      .ref('/liveBets')
       .on('value', bets => {
         if (bets.val() !== null) {
           this.setState({bets: bets.val()});
@@ -23,53 +23,29 @@ class VipUserBets extends Component {
       });
   };
 
-  sortBets = () => {
-    const {bets} = this.state;
-    let freeBets = [];
-    let vipBets = [];
-    for (let i = 1; i < bets.length; i++) {
-      const [day, month, year] = bets[i].date.split('/');
-      bets[i].isoDate = `${year}-${month}-${day}`;
-      bets[i].vip ? vipBets.push(bets[i]) : freeBets.push(bets[i]);
-    }
-
-    //console.log(bets);
-    return [
-      ...freeBets.sort(
-        ({isoDate}, {isoDate: isoDate1}) =>
-          new Date(isoDate) - new Date(isoDate1),
-      ),
-      ...vipBets.sort(
-        ({isoDate}, {isoDate: isoDate1}) =>
-          new Date(isoDate) - new Date(isoDate1),
-      ),
-    ];
-  };
-
   render() {
+    const {bets} = this.state;
     let newBet = [];
-    let sortedBets = [];
-    sortedBets = this.sortBets();
-    for (let i = 0; i < sortedBets.length; i++) {
+    for (let i = 1; i < bets.length; i++) {
       newBet.push(
         <View style={styles.container}>
           <View style={styles.titleDateContainer}>
-            <Text style={styles.titleText}>{sortedBets[i].title}</Text>
-            <Text style={styles.dateText}>{sortedBets[i].date}</Text>
+            <Text style={styles.titleText}>{bets[i].title}</Text>
+            <Text style={styles.dateText}>{bets[i].score}</Text>
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.timeText}>{sortedBets[i].time}</Text>
+            <Text style={styles.timeText}>{bets[i].time}</Text>
             <View style={styles.ligContainer}>
-              <Text style={styles.ligText}>{sortedBets[i].league}</Text>
+              <Text style={styles.ligText}>{bets[i].league}</Text>
             </View>
             <LinearGradient
               start={{x: 0.0, y: 0}}
               end={{x: 1, y: 1.0}}
               colors={['#28616B', '#20AE02']}
               style={styles.tahminContainer}>
-              <Text style={styles.tahminText}>{sortedBets[i].estimation}</Text>
-              <Text style={styles.tahminText}>{sortedBets[i].rate}</Text>
-              <Text style={styles.tahminText}>{sortedBets[i].percent}</Text>
+              <Text style={styles.tahminText}>{bets[i].estimation}</Text>
+              <Text style={styles.tahminText}>{bets[i].rate}</Text>
+              <Text style={styles.tahminText}>{bets[i].percent}</Text>
             </LinearGradient>
           </View>
         </View>,
@@ -144,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VipUserBets;
+export default LiveBets;
