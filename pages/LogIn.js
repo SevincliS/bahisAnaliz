@@ -127,7 +127,9 @@ class LogIn extends React.Component {
           style={styles.googleIconView}
           onPress={() => setUser({loggedIn: true, anonym: true})}>
           <View style={styles.anonymView}>
-            <Text style={{fontSize: 12, marginVertical: 16*width}}>ya da</Text>
+            <Text style={{fontSize: 12, marginVertical: 16 * width}}>
+              ya da
+            </Text>
             <Text style={{fontsize: 16, fontWeight: 'bold'}}>
               Anonim olarak devam et.
             </Text>
