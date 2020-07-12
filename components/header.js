@@ -8,7 +8,7 @@ export default class Header extends Component {
     return (
       <View stlye={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Cheap App BET</Text>
+          <Text style={styles.headerText}>Cheap at BET</Text>
         </View>
       </View>
     );

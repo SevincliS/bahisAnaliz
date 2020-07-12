@@ -38,7 +38,7 @@ class Live extends Component {
           <Header />
         </TouchableOpacity>
 
-        {vip ? (
+        {!vip ? (
           <ScrollView style={styles.betsContainer}>
             <LiveBets />
           </ScrollView>
@@ -56,16 +56,14 @@ class Live extends Component {
                   fontWeight: 'bold',
                   marginTop: 22 * height,
                   color: '#fff',
+                  letterSpacing: 1,
                 }}>
                 Canlı maçları görebilmek için
               </Text>
               <View
                 // eslint-disable-next-line react-native/no-inline-styles
                 style={{
-                  width: 300 * width,
-                  height: 46 * height,
                   alignItems: 'center',
-                  marginBottom: 20 * height,
                   alignSelf: 'center',
                   textAlign: 'center',
                 }}>
@@ -78,6 +76,8 @@ class Live extends Component {
                     marginTop: 17 * height,
                     color: '#fff',
                     letterSpacing: 1,
+                    width: 200 * width,
+                    height: 60 * width,
                   }}>
                   PREMIUM ÜYE OLMALISINIZ
                 </Text>
@@ -96,7 +96,9 @@ class Live extends Component {
                     fontSize: 12 * height,
                     textAlign: 'center',
                     fontWeight: 'bold',
+                    textDecorationLine: 'underline',
                     color: '#fff',
+                    letterSpacing: 0.8,
                   }}>
                   Üyelik sayfası için tıklayın
                 </Text>
@@ -139,10 +141,10 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   liveIcon: {
-    width: 96 * width,
+    width: 130 * width,
     height: 96 * height,
     alignSelf: 'center',
-    marginTop: 20 * height,
+    marginVertical: 18 * height,
   },
   nextIcon: {
     width: 16 * width,
@@ -152,7 +154,6 @@ const styles = StyleSheet.create({
   nextButton: {
     flexDirection: 'row',
     marginBottom: 34 * height,
-    marginTop: 29 * height,
     alignSelf: 'center',
     alignItems: 'center',
   },

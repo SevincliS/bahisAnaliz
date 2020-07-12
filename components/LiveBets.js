@@ -45,7 +45,6 @@ class LiveBets extends Component {
               style={styles.tahminContainer}>
               <Text style={styles.tahminText}>{bets[i].estimation}</Text>
               <Text style={styles.tahminText}>{bets[i].rate}</Text>
-              <Text style={styles.tahminText}>{bets[i].percent}</Text>
             </LinearGradient>
           </View>
         </View>,
@@ -111,8 +110,9 @@ const styles = StyleSheet.create({
   },
   titleText: {fontSize: 16 * height},
   dateText: {
-    fontSize: 14 * height,
+    fontSize: 16 * height,
     fontFamily: 'roboto',
+    textAlign: 'center',
   },
   blur: {
     width: 112 * width,
