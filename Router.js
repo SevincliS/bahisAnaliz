@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Vip from './pages/Vip';
 import HomePage from './pages/HomePage';
 import Live from './pages/Live';
-
+import 
 const height = Dimensions.get('screen').height / 640;
 const width = Dimensions.get('screen').width / 640;
 const Tab = createBottomTabNavigator();
@@ -15,6 +15,7 @@ class Router extends React.Component {
   }
 
   render() {
+    const {vip} = this.props;
     return (
       <Tab.Navigator
         tabBarOptions={{

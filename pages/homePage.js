@@ -3,52 +3,31 @@ import RNIap, {
   purchaseErrorListener,
   purchaseUpdatedListener,
 } from 'react-native-iap';
-import {
-  Dimensions,
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import db from '@react-native-firebase/database';
-
+import {StyleSheet, ScrollView, View, TouchableOpacity} from 'react-native';
+import Orientation from 'react-native-orientation';
 import {connect} from 'react-redux';
 import Header from '../components/Header';
 import FreeUserBets from '../components/FreeUserBets';
 import VipUserBets from '../components/VipUserBets';
 
-import {
-  resetUser as resetUserAction,
-  updateSubscription as updateSubscriptionAction,
-  setSubscription as setSubscriptionAction,
-  setSubscription,
-} from '../redux/actions/userActions';
-
-const width = Dimensions.get('screen').width / 360;
-const height = Dimensions.get('screen').height / 640;
+import {setVip as setVipAction} from '../redux/actions/userActions';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    props.updateSubscription();
   }
 
   async componentDidMount() {
+    Orientation.lockToPortrait();
+    const {setVip} = this.props;
+    const purchases = await RNIap.getAvailablePurchases();
+    console.log(purchases);
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
-      const {user} = this.props;
-      const {uid} = user;
-      console.log(purchase);
-      const {
-        productId: subscriptionType,
-        transactionDate: subscriptionDate,
-      } = purchase;
-      console.log({user});
-      console.log({uid});
-      console.log({subscriptionType, subscriptionDate});
-      db()
-        .ref(`users/${uid}`)
-        .update({subscriptionDate, subscriptionType});
-      setSubscription({subscriptionType, subscriptionDate});
+      setVip();
+      console.log('this is vip bitch');
+      purchaseErrorListener(err => {
+        console.log(err);
+      });
     });
   }
   render() {
@@ -79,10 +58,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    resetUser: () => dispatch(resetUserAction()),
-    updateSubscription: () => dispatch(updateSubscriptionAction()),
-    setSubscription: ({subscriptionDate, subscriptionType}) =>
-      dispatch(setSubscriptionAction({subscriptionDate, subscriptionType})),
+    setVip: () => dispatch(setVipAction()),
   };
 };
 export default connect(

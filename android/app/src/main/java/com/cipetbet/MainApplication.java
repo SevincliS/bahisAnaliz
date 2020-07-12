@@ -5,13 +5,14 @@ import android.content.Context;
 import androidx.multidex.MultiDexApplication;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.github.yamill.orientation.OrientationPackage; 
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -27,7 +28,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new FBSDKPackage());
+          //packages.add(new Orientation());
           return packages;
         }
 
@@ -49,6 +50,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
+
+
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like

@@ -77,6 +77,8 @@ target 'cipetbet' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
+
   target 'cipetbetTests' do
     inherit! :complete
     # Pods for testing

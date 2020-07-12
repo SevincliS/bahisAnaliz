@@ -18,7 +18,6 @@ import Header from '../components/Header';
 import FreeUserBets from '../components/FreeUserBets';
 
 import {resetUser as resetUserAction} from '../redux/actions/userActions';
-import {updateSubscription as updateSubscriptionAction} from '../redux/actions/userActions';
 import LiveBets from '../components/LiveBets';
 
 const width = Dimensions.get('screen').width / 360;
@@ -27,16 +26,8 @@ const height = Dimensions.get('screen').height / 640;
 class Live extends Component {
   constructor(props) {
     super(props);
-    props.updateSubscription();
   }
 
-  componentDidMount() {
-    console.log('wtf');
-    this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
-      const receipt = purchase.transactionReceipt;
-      console.log(receipt);
-    });
-  }
   render() {
     const {resetUser, user} = this.props;
     const {navigation} = this.props;
@@ -174,7 +165,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     resetUser: () => dispatch(resetUserAction()),
-    updateSubscription: () => dispatch(updateSubscriptionAction()),
   };
 };
 export default connect(

@@ -9,7 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {setUser as setUserAction} from '../redux/actions/userActions';
+import Modal from 'react-native-modal';
 
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
@@ -17,7 +17,7 @@ const gif = require('../images/vip.png');
 class Vip extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {showModal: false};
   }
 
   async componentDidMount() {
@@ -34,16 +34,44 @@ class Vip extends Component {
     }
   }
 
-  requestSubscription = async subType => {
+  checkSubscription = async subType => {
+    this.setState({subType}, async () => {
+      const {user} = this.props;
+      const {vip} = user;
+      if (!vip) {
+        await this.requestSubscription();
+      } else {
+        this.setState({showModal: true});
+      }
+    });
+  };
+
+  requestSubscription = async () => {
+    const {subType} = this.state;
     try {
-      await RNIap.requestSubscription(subType);
+      await RNIap.requestSubscription();
     } catch (err) {
       console.warn(err.code, err.message);
     }
   };
+
   render() {
+    const {showModal} = this.state;
     return (
       <View style={styles.container}>
+        <Modal
+          onBackdropPress={() => this.setState({showModal: false})}
+          isVisible={showModal}>
+          <View>
+            <Text>Zaten üyesin</Text>
+          </View>
+          <TouchableOpacity>
+            <Text>Devam et</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text>Vazgeç</Text>
+          </TouchableOpacity>
+        </Modal>
         <View style={styles.imageView}>
           <Image resizeMode="contain" style={styles.image} source={gif} />
         </View>
@@ -211,22 +239,12 @@ const styles = StyleSheet.create({
   },
 });
 
-/*<View style={styles.header}>
-          <Text style={styles.headerText}>
-            Uzman ekibimiz tarafından titizlikle hazırlanmış kazandırma yüzdesi
-            yüksek maçları sizlerle paylaşıyoruz.
-          </Text>
-        </View>*/
 const mapStateToProps = state => {
   const {user} = state;
   return {user};
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: user => dispatch(setUserAction(user)),
-  };
-};
+
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(Vip);
