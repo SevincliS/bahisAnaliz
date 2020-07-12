@@ -10,14 +10,19 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import db from '@react-native-firebase/database';
 
 import {connect} from 'react-redux';
 import Header from '../components/Header';
 import FreeUserBets from '../components/FreeUserBets';
 import VipUserBets from '../components/VipUserBets';
 
-import {resetUser as resetUserAction} from '../redux/actions/userActions';
-import {updateSubscription as updateSubscriptionAction} from '../redux/actions/userActions';
+import {
+  resetUser as resetUserAction,
+  updateSubscription as updateSubscriptionAction,
+  setSubscription as setSubscriptionAction,
+  setSubscription,
+} from '../redux/actions/userActions';
 
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
@@ -25,15 +30,25 @@ const height = Dimensions.get('screen').height / 640;
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     props.updateSubscription();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
-      console.log('purchaseUpdatedListener', purchase);
-      const receipt = purchase.transactionReceipt;
-      console.log(receipt);
+      const {user} = this.props;
+      const {uid} = user;
+      console.log(purchase);
+      const {
+        productId: subscriptionType,
+        transactionDate: subscriptionDate,
+      } = purchase;
+      console.log({user});
+      console.log({uid});
+      console.log({subscriptionType, subscriptionDate});
+      db()
+        .ref(`users/${uid}`)
+        .update({subscriptionDate, subscriptionType});
+      setSubscription({subscriptionType, subscriptionDate});
     });
   }
   render() {
@@ -58,7 +73,6 @@ const styles = StyleSheet.create({
   },
   container: {flex: 1},
 });
-
 const mapStateToProps = state => {
   const {user} = state;
   return {user};
@@ -67,6 +81,8 @@ const mapDispatchToProps = dispatch => {
   return {
     resetUser: () => dispatch(resetUserAction()),
     updateSubscription: () => dispatch(updateSubscriptionAction()),
+    setSubscription: ({subscriptionDate, subscriptionType}) =>
+      dispatch(setSubscriptionAction({subscriptionDate, subscriptionType})),
   };
 };
 export default connect(

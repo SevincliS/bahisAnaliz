@@ -8,8 +8,14 @@ const updateSubscription = user => ({
   user,
 });
 
+const setSubscription = ({subscriptionDate, subscriptionType}) => ({
+  type: 'SET_SUBSCRIPTION',
+  subscriptionDate,
+  subscriptionType,
+});
+
 const resetUser = () => ({
   type: 'RESET_USER',
 });
 
-export {setUser, resetUser, updateSubscription};
+export {setUser, resetUser, updateSubscription, setSubscription};

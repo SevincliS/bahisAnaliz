@@ -1,5 +1,4 @@
 import React from 'react';
-import db from '@react-native-firebase/database';
 import {
   View,
   Text,
@@ -11,9 +10,8 @@ import {
 import auth from '@react-native-firebase/auth';
 import {connect} from 'react-redux';
 import {GoogleSignin} from '@react-native-community/google-signin';
-
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
-
+import db from '@react-native-firebase/database';
 import {setUser as setUserAction} from '../redux/actions/userActions';
 
 const width = parseInt(Dimensions.get('screen').width, 10) / 360;
