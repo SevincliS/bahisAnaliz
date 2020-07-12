@@ -49,7 +49,7 @@ class Vip extends Component {
   requestSubscription = async () => {
     const {subType} = this.state;
     try {
-      await RNIap.requestSubscription();
+      await RNIap.requestSubscription(subType);
     } catch (err) {
       console.warn(err.code, err.message);
     }
@@ -63,12 +63,21 @@ class Vip extends Component {
           onBackdropPress={() => this.setState({showModal: false})}
           isVisible={showModal}>
           <View>
-            <Text>Zaten üyesin</Text>
+            <Text>
+              Zaten mevcut bir aboneliğiniz var.Yine de devam etmek istiyor
+              musunuz?
+            </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.requestSubscription();
+            }}>
             <Text>Devam et</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({showModal: false});
+            }}>
             <Text>Vazgeç</Text>
           </TouchableOpacity>
         </Modal>
@@ -80,7 +89,7 @@ class Vip extends Component {
         </View>
         <TouchableOpacity
           onPress={() => {
-            this.requestSubscription('weekly');
+            this.checkSubscription('weekly');
           }}>
           <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>Haftalık</Text>
@@ -94,7 +103,7 @@ class Vip extends Component {
 
         <TouchableOpacity
           onPress={() => {
-            this.requestSubscription('monthly');
+            this.checkSubscription('monthly');
           }}>
           <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>Aylık</Text>
@@ -106,7 +115,7 @@ class Vip extends Component {
 
         <TouchableOpacity
           onPress={() => {
-            this.requestSubscription('seasonal');
+            this.checkSubscription('seasonal');
           }}>
           <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>3 Aylık</Text>
@@ -118,7 +127,7 @@ class Vip extends Component {
 
         <TouchableOpacity
           onPress={() => {
-            this.requestSubscription('yearly');
+            this.checkSubscription('yearly');
           }}>
           <View style={styles.vipsContainer}>
             <Text style={styles.vipTimeText}>Yıllık</Text>

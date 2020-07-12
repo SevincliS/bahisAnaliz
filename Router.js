@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Vip from './pages/Vip';
 import HomePage from './pages/HomePage';
 import Live from './pages/Live';
-import 
+
 const height = Dimensions.get('screen').height / 640;
 const width = Dimensions.get('screen').width / 640;
 const Tab = createBottomTabNavigator();
@@ -15,7 +15,6 @@ class Router extends React.Component {
   }
 
   render() {
-    const {vip} = this.props;
     return (
       <Tab.Navigator
         tabBarOptions={{
@@ -47,12 +46,12 @@ class Router extends React.Component {
               <Image
                 style={styles.homePageIcon}
                 resizeMode="contain"
-                source={{uri: 'live_icon'}}
+                source={require('./images/diamondWhite.png')}
               />
             ),
           }}
-          name="Live"
-          component={Live}
+          name="Vip"
+          component={Vip}
         />
         <Tab.Screen
           options={{
@@ -60,12 +59,12 @@ class Router extends React.Component {
               <Image
                 style={styles.homePageIcon}
                 resizeMode="contain"
-                source={require('./images/diamondWhite.png')}
+                source={{uri: 'live_icon'}}
               />
             ),
           }}
-          name="Vip"
-          component={Vip}
+          name="Live"
+          component={Live}
         />
       </Tab.Navigator>
     );
