@@ -10,28 +10,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {setUser as setUserAction} from '../redux/actions/userActions';
-import Modal from 'react-native-modal';
-import db from '@react-native-firebase/database';
-import auth from '@react-native-firebase/auth';
-import {GoogleSignin} from '@react-native-community/google-signin';
 
-import {LoginManager, AccessToken} from 'react-native-fbsdk';
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
 const gif = require('../images/vip.png');
 class Vip extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showLogInModal: false,
-    };
+    this.state = {};
   }
 
   async componentDidMount() {
-    GoogleSignin.configure({
-      webClientId:
-        '807806732564-67te0omh0dalj84orqiubfftip5etvje.apps.googleusercontent.com',
-    });
     try {
       const products = await RNIap.getSubscriptions([
         'weekly',
@@ -46,123 +35,15 @@ class Vip extends Component {
   }
 
   requestSubscription = async subType => {
-    const {user} = this.props;
-    const {anonym} = user;
-    if (!anonym) {
-      try {
-        await RNIap.requestSubscription(subType);
-      } catch (err) {
-        console.warn(err.code, err.message);
-      }
-    } else {
-      this.setState({showLogInModal: true});
+    try {
+      await RNIap.requestSubscription(subType);
+    } catch (err) {
+      console.warn(err.code, err.message);
     }
-  };
-
-  onFacebookButtonPress = async () => {
-    // Attempt login with permissions
-    const result = await LoginManager.logInWithPermissions([
-      'public_profile',
-      'email',
-    ]);
-    if (result.isCancelled) {
-      throw 'User cancelled the login process';
-    }
-    const data = await AccessToken.getCurrentAccessToken();
-    if (!data) {
-      throw 'Something went wrong obtaining access token';
-    }
-    const facebookCredential = auth.FacebookAuthProvider.credential(
-      data.accessToken,
-    );
-    auth()
-      .signInWithCredential(facebookCredential)
-      .then(async res => {
-        this.logInCallback(res);
-      });
-    return auth().signInWithCredential(facebookCredential);
-  };
-  onGoogleButtonPress = async () => {
-    // Get the users ID token
-    const {idToken} = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    auth()
-      .signInWithCredential(googleCredential)
-      .then(async res => {
-        this.logInCallback(res);
-      });
-    return auth().signInWithCredential(googleCredential);
-  };
-
-  logInCallback = async res => {
-    const {setUser} = this.props;
-    const {uid, displayName: name, email} = res.user;
-    this.setState({showLogInModal: false});
-    await db()
-      .ref(`users/${uid}`)
-      .once('value')
-      .then(user => {
-        if (!user.val()) {
-          db()
-            .ref(`users/${uid}`)
-            .set({uid, name, email});
-          setUser({
-            uid,
-            name,
-            email,
-            subscriptionDate: null,
-            subscriptionType: null,
-            anonym: false,
-          });
-        } else {
-          setUser({
-            uid,
-            name,
-            email,
-            anonym: false,
-            subscriptionDate: new Date(user.val().subscriptionDate),
-            subscriptionType: user.val().subscriptionType,
-          });
-        }
-      });
   };
   render() {
-    const {showLogInModal} = this.state;
     return (
       <View style={styles.container}>
-        <Modal
-          onBackdropPress={() => {
-            this.setState({showLogInModal: false});
-          }}
-          isVisible={showLogInModal}>
-          <View style={styles.modalView}>
-            <Image style={styles.appIcon} source={{uri: 'guvercin'}} />
-            <Text style={styles.subscribeText}>Abone olabilmek için</Text>
-            <Text style={styles.logInText}>GİRİŞ YAPMALISINIZ</Text>
-            <View style={styles.logInRow}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.onGoogleButtonPress()
-                    .then(() => console.log('Signed in with Google!'))
-                    .catch(err => {
-                      console.log(err);
-                    })
-                }>
-                <Image
-                  style={styles.googleIcon}
-                  source={{uri: 'google_icon_modal'}}
-                />
-              </TouchableOpacity>
-              <Text style={styles.orText}>ya da</Text>
-              <TouchableOpacity onPress={() => this.onFacebookButtonPress()}>
-                <Image
-                  style={styles.facebookIcon}
-                  source={{uri: 'fb_icon_modal'}}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
         <View style={styles.imageView}>
           <Image resizeMode="contain" style={styles.image} source={gif} />
         </View>
@@ -252,20 +133,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 360 * width,
-    height: 240 * height,
+    height: 220 * height,
     alignSelf: 'center',
     marginBottom: 15 * height,
   },
   vipHeaderContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 66 * width,
+    marginHorizontal: 0 * width,
   },
   vipText: {
     textAlign: 'center',
     fontFamily: 'roboto',
     fontSize: 20 * height,
-    marginBottom: 15 * height,
+    marginBottom: 10 * height,
   },
   vipsContainer: {
     backgroundColor: '#FFE064',
@@ -321,18 +202,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     letterSpacing: 2,
-  },
-  logInText: {
-    marginTop: 6 * height,
-    fontSize: 20,
-    color: '#fff',
-    fontWeight: 'bold',
-    letterSpacing: 3,
-  },
-  logInRow: {
-    flexDirection: 'row',
-    marginTop: 31 * height,
-    alignItems: 'center',
   },
   orText: {
     marginHorizontal: 16 * width,

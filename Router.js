@@ -46,12 +46,12 @@ class Router extends React.Component {
               <Image
                 style={styles.homePageIcon}
                 resizeMode="contain"
-                source={require('./images/diamondWhite.png')}
+                source={{uri: 'live_icon'}}
               />
             ),
           }}
-          name="Vip"
-          component={Vip}
+          name="Live"
+          component={Live}
         />
         <Tab.Screen
           options={{
@@ -59,12 +59,12 @@ class Router extends React.Component {
               <Image
                 style={styles.homePageIcon}
                 resizeMode="contain"
-                source={{uri: 'live_icon'}}
+                source={require('./images/diamondWhite.png')}
               />
             ),
           }}
-          name="Live"
-          component={Live}
+          name="Vip"
+          component={Vip}
         />
       </Tab.Navigator>
     );

@@ -24,16 +24,15 @@ import LiveBets from '../components/LiveBets';
 const width = Dimensions.get('screen').width / 360;
 const height = Dimensions.get('screen').height / 640;
 
-class HomePage extends Component {
+class Live extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     props.updateSubscription();
   }
 
   componentDidMount() {
+    console.log('wtf');
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
-      console.log('purchaseUpdatedListener', purchase);
       const receipt = purchase.transactionReceipt;
       console.log(receipt);
     });
@@ -48,7 +47,7 @@ class HomePage extends Component {
           <Header />
         </TouchableOpacity>
 
-        {!vip ? (
+        {vip ? (
           <ScrollView style={styles.betsContainer}>
             <LiveBets />
           </ScrollView>
@@ -72,11 +71,12 @@ class HomePage extends Component {
               <View
                 // eslint-disable-next-line react-native/no-inline-styles
                 style={{
-                  width: 150 * width,
+                  width: 300 * width,
                   height: 46 * height,
                   alignItems: 'center',
                   marginBottom: 20 * height,
                   alignSelf: 'center',
+                  textAlign: 'center',
                 }}>
                 <Text
                   // eslint-disable-next-line react-native/no-inline-styles
@@ -180,4 +180,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HomePage);
+)(Live);

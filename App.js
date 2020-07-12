@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import React from 'react';
 import {store, persistor} from './redux/store/store';
 
-import Sponge from './Sponge';
+import Router from './Router';
 
 class App extends React.PureComponent {
   render() {
@@ -14,7 +14,7 @@ class App extends React.PureComponent {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <NavigationContainer>
-              <Sponge />
+              <Router />
             </NavigationContainer>
           </PersistGate>
         </Provider>
