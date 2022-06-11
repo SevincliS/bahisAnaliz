@@ -38,7 +38,7 @@ class Live extends Component {
           <Header />
         </TouchableOpacity>
 
-        {!vip ? (
+        {vip ? (
           <ScrollView style={styles.betsContainer}>
             <LiveBets />
           </ScrollView>

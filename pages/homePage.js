@@ -39,7 +39,7 @@ class HomePage extends Component {
           <Header />
         </TouchableOpacity>
         <ScrollView style={styles.betsContainer}>
-          {!vip ? <VipUserBets /> : <FreeUserBets />}
+          {vip ? <VipUserBets /> : <FreeUserBets />}
         </ScrollView>
       </View>
     );
